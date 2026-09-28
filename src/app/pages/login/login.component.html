@@ -1,11 +1,70 @@
-<div class="main-container">
-    <mat-card class="card-login" appearance="outlined">
-        <mat-card-header>
-            <mat-card-title>Login</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p>teste</p>
-            <button (click)="playMusic()">PORRAAAAAA</button>
-        </mat-card-content>
-    </mat-card>
-</div>
+<main class="login-screen">
+    <section class="login-panel" aria-labelledby="login-title">
+        <h1 class="login-title" id="login-title">Login</h1>
+
+        <form class="login-form" novalidate (submit)="onSubmit($event)">
+            <div class="field-group">
+                <label class="visually-hidden" for="email">Email</label>
+                <input
+                    class="login-input"
+                    #emailInput
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="EMAIL"
+                    autocomplete="email"
+                    [attr.aria-invalid]="submitted && !emailInput.validity.valid ? 'true' : null"
+                    [attr.aria-describedby]="submitted && !emailInput.validity.valid ? 'email-error' : null"
+                    required
+                >
+                @if (submitted && !emailInput.validity.valid) {
+                    <span class="field-error" id="email-error" aria-live="polite">
+                        @if (emailInput.validity.valueMissing) {
+                            Email is required.
+                        } @else {
+                            Enter a valid email address.
+                        }
+                    </span>
+                }
+            </div>
+
+            <div class="field-group password-group">
+                <label class="visually-hidden" for="password">Password</label>
+                <div class="password-control">
+                    <input
+                        class="login-input password-input"
+                        #passwordInput
+                        id="password"
+                        name="password"
+                        [type]="passwordVisible ? 'text' : 'password'"
+                        placeholder="PASSWORD"
+                        autocomplete="current-password"
+                        [attr.aria-invalid]="submitted && !passwordInput.validity.valid ? 'true' : null"
+                        [attr.aria-describedby]="submitted && !passwordInput.validity.valid ? 'password-error' : null"
+                        required
+                    >
+                    <button
+                        class="password-toggle"
+                        type="button"
+                        [attr.aria-label]="passwordVisible ? 'Ocultar senha' : 'Mostrar senha'"
+                        (click)="togglePasswordVisibility()"
+                    >
+                        {{ passwordVisible ? 'Hide' : 'Show' }}
+                    </button>
+                </div>
+                @if (submitted && !passwordInput.validity.valid) {
+                    <span class="field-error" id="password-error" aria-live="polite">
+                        Password is required.
+                    </span>
+                }
+            </div>
+
+            <button class="submit-button" type="submit">Join Battle</button>
+        </form>
+
+        <nav class="login-links" aria-label="Opções da conta">
+            <a href="#forgot-password">Forgot Password?</a>
+            <a href="#create-account">Create New Account</a>
+        </nav>
+    </section>
+</main>
